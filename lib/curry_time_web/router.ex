@@ -60,5 +60,8 @@ defmodule CurryTimeWeb.Router do
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :confirm
+
+    get "/auth/:provider", GithubAuthController, :request
+    get "/auth/:provider/callback", GithubAuthController, :callback
   end
 end

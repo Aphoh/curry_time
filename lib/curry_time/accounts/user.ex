@@ -5,6 +5,8 @@ defmodule CurryTime.Accounts.User do
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
+    field :name, :string
+    field :image, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
@@ -112,5 +114,13 @@ defmodule CurryTime.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  @doc """
+  Creates a changeset for updating a users personal information (non-auth related)
+  """
+  def change_user_info(user, attrs) do
+    user
+    |> cast(attrs, [:name, :image])
   end
 end

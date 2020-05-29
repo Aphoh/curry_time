@@ -477,4 +477,26 @@ defmodule CurryTime.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "update_user_personal_information/2" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "correctly updates user information", %{user: user} do
+      attrs = %{name: valid_user_name(), image: valid_user_image()}
+      {:ok, user} = Accounts.update_user_personal_information(user, attrs)
+      assert user.name == attrs.name
+      assert user.image == attrs.image
+    end
+
+    test "errors on incorrectly typed data", %{user: user} do
+      attrs = %{name: 1}
+      {:error, changeset} = Accounts.update_user_personal_information(user, attrs)
+
+      assert %{
+               name: ["is invalid"]
+             } = errors_on(changeset)
+    end
+  end
 end

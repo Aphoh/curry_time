@@ -6,7 +6,7 @@ defmodule CurryTimeWeb.CallChannel do
   end
 
   def handle_in("message", %{"body" => body}, socket) do
-    broadcast! socket, "message", %{body: body}
+    broadcast!(socket, "message", %{body: body})
     {:noreply, socket}
   end
 end

@@ -127,6 +127,21 @@ defmodule CurryTime.Accounts do
   end
 
   @doc """
+  Updates the users personal information with the given attributes
+
+  ## Exmaples
+      iex> update_user_personal_information(user, %{name: ..., image: ...})
+      {:ok, %User{}}
+      iex> update_user_personal_information(user, %{name: 1,...})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_user_personal_information(user, %{} = attrs) do
+    user
+    |> User.change_user_info(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Updates the user e-mail in token.
 
   If the token matches, the user email is updated and the token is deleted.
