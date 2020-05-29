@@ -47,7 +47,7 @@ defmodule CurryTime.AccountsTest do
     end
   end
 
-  describe "register_user/1" do
+  describe "register_user/2" do
     test "requires email and password to be set" do
       {:error, changeset} = Accounts.register_user(%{})
 
@@ -86,6 +86,15 @@ defmodule CurryTime.AccountsTest do
     test "registers users with a hashed password" do
       email = unique_user_email()
       {:ok, user} = Accounts.register_user(%{email: email, password: valid_user_password()})
+      assert user.email == email
+      assert is_binary(user.hashed_password)
+      assert is_nil(user.confirmed_at)
+      assert is_nil(user.password)
+    end
+
+    test "registers with a random password when flag passed" do
+      email = unique_user_email()
+      {:ok, user} = Accounts.register_user(%{email: email}, random_password: true)
       assert user.email == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)

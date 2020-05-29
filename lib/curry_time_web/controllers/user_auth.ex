@@ -55,8 +55,7 @@ defmodule CurryTimeWeb.UserAuth do
   #
   #       conn
   #       |> configure_session(renew: true)
-  #       |> clear_session()
-  #       |> put_session(:preferred_locale, preferred_locale)
+  #       |> clear_session() |> put_session(:preferred_locale, preferred_locale)
   #     end
   #
   defp renew_session(conn) do

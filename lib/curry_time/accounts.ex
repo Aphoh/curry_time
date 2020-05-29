@@ -3,6 +3,8 @@ defmodule CurryTime.Accounts do
   The Accounts context.
   """
 
+  @rand_size 32
+
   alias CurryTime.Repo
   alias CurryTime.Accounts.{User, UserToken, UserNotifier}
 
@@ -63,6 +65,8 @@ defmodule CurryTime.Accounts do
   @doc """
   Registers a user.
 
+  Passing `random_password: true` will register the user with a randomized password. This functionality is useful for registering a user via oauth or other methods.
+
   ## Examples
 
       iex> register_user(%{field: value})
@@ -72,7 +76,15 @@ defmodule CurryTime.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def register_user(attrs) do
+
+  def register_user(attrs, opts \\ [])
+
+  def register_user(attrs, random_password: true) do
+    attrs = Map.put(attrs, :password, :crypto.strong_rand_bytes(@rand_size))
+    register_user(attrs)
+  end
+
+  def register_user(attrs, []) do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
