@@ -3,6 +3,7 @@ defmodule CurryTimeWeb.UserSocket do
 
   ## Channels
   # channel "room:*", CurryTimeWeb.RoomChannel
+  channel "call", CurryTimeWeb.CallChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
